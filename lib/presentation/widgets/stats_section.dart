@@ -20,21 +20,21 @@ class StatsSection extends StatelessWidget {
         child: isMobile
             ? Column(
                 children: [
-                  _statCard('50+', 'Apps Delivered', context),
+                  _statCard('15+', 'Projects Built', context),
                   const SizedBox(height: 16),
-                  _statCard('5+', 'Years Experience', context),
+                  _statCard('2+', 'Years Experience', context),
                   const SizedBox(height: 16),
-                  _statCard('10M+', 'App Downloads', context),
+                  _statCard('12+', 'Apps Deployed', context),
                 ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: _statCard('50+', 'Apps Delivered', context)),
+                  Expanded(child: _statCard('15+', 'Projects Built', context)),
                   const SizedBox(width: 24),
-                  Expanded(child: _statCard('5+', 'Years Experience', context)),
+                  Expanded(child: _statCard('2+', 'Years Experience', context)),
                   const SizedBox(width: 24),
-                  Expanded(child: _statCard('10M+', 'App Downloads', context)),
+                  Expanded(child: _statCard('12+', 'Apps Deployed', context)),
                 ],
               ),
       ),
@@ -50,7 +50,13 @@ class StatsSection extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 30, offset: const Offset(0, 10))],
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow,
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         children: [

@@ -1,10 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../core/constants/personal_info.dart';
 import '../../core/responsive.dart';
 import '../../core/theme/app_colors.dart';
 
-class ContactSection extends StatelessWidget {
+class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
+
+  @override
+  State<ContactSection> createState() => _ContactSectionState();
+}
+
+class _ContactSectionState extends State<ContactSection> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendEmail() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final message = _messageController.text.trim();
+
+    if (name.isEmpty || email.isEmpty || message.isEmpty) {
+      _showSnackBar('Please fill in all fields');
+      return;
+    }
+
+    // Construct mailto URL
+    final subject = Uri.encodeComponent('Portfolio Contact: $name');
+    final body = Uri.encodeComponent(
+      'Name: $name\nEmail: $email\n\nMessage:\n$message',
+    );
+    final mailtoUrl =
+        'mailto:${PersonalInfo.email}?subject=$subject&body=$body';
+
+    final uri = Uri.parse(mailtoUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+      // Clear form after successful launch
+      _nameController.clear();
+      _emailController.clear();
+      _messageController.clear();
+      _showSnackBar('Opening email client...');
+    } else {
+      _showSnackBar('Could not open email client');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +127,33 @@ class ContactSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 40),
                   if (isMobile) ...[
-                    _field('Name', 'Jane Doe', context),
+                    _field('Name', 'Jane Doe', _nameController, context),
                     const SizedBox(height: 20),
-                    _field('Email', 'jane@example.com', context),
+                    _field(
+                      'Email',
+                      'jane@example.com',
+                      _emailController,
+                      context,
+                    ),
                   ] else
                     Row(
                       children: [
-                        Expanded(child: _field('Name', 'Jane Doe', context)),
+                        Expanded(
+                          child: _field(
+                            'Name',
+                            'Jane Doe',
+                            _nameController,
+                            context,
+                          ),
+                        ),
                         const SizedBox(width: 20),
                         Expanded(
-                          child: _field('Email', 'jane@example.com', context),
+                          child: _field(
+                            'Email',
+                            'jane@example.com',
+                            _emailController,
+                            context,
+                          ),
                         ),
                       ],
                     ),
@@ -83,6 +161,7 @@ class ContactSection extends StatelessWidget {
                   _field(
                     'Message',
                     'Tell me about your project...',
+                    _messageController,
                     context,
                     maxLines: 4,
                   ),
@@ -91,7 +170,7 @@ class ContactSection extends StatelessWidget {
                     width: double.infinity,
                     height: 54,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _sendEmail,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: AppColors.surface,
@@ -122,6 +201,7 @@ class ContactSection extends StatelessWidget {
   Widget _field(
     String label,
     String hint,
+    TextEditingController controller,
     BuildContext context, {
     int maxLines = 1,
   }) {
@@ -142,6 +222,7 @@ class ContactSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           maxLines: maxLines,
           style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(

@@ -10,6 +10,7 @@ import '../widgets/testimonials_section.dart';
 import '../widgets/contact_section.dart';
 import '../widgets/footer.dart';
 import '../widgets/mobile_drawer.dart';
+import '../../core/constants/personal_info.dart';
 import '../../core/theme/app_colors.dart';
 
 class PortfolioScreen extends StatefulWidget {
@@ -120,8 +121,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 SkillsSection(key: _skillsKey),
                 const SizedBox(height: 120),
                 ProjectsSection(key: _projectsKey),
-                const SizedBox(height: 120),
-                TestimonialsSection(key: _testimonialsKey),
+                if (PersonalInfo.showTestimonials) ...[
+                  const SizedBox(height: 120),
+                  TestimonialsSection(key: _testimonialsKey),
+                ],
                 const SizedBox(height: 120),
                 ContactSection(key: _contactKey),
                 const Footer(),

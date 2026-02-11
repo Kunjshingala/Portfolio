@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants/assets.dart';
 import '../../core/constants/personal_info.dart';
@@ -27,14 +28,23 @@ class Footer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              _footerLink('GitHub'),
-              _divider(),
-              _footerLink('LinkedIn'),
-              _divider(),
-              _footerLink('Twitter'),
+              if (PersonalInfo.showGithub) ...[
+                _footerLink('GitHub', PersonalInfo.githubUrl),
+                if (PersonalInfo.showLinkedIn || PersonalInfo.showTwitter)
+                  _divider(),
+              ],
+              if (PersonalInfo.showLinkedIn) ...[
+                _footerLink('LinkedIn', PersonalInfo.linkedinUrl),
+                if (PersonalInfo.showTwitter) _divider(),
+              ],
+              if (PersonalInfo.showTwitter)
+                _footerLink('Twitter', PersonalInfo.twitterUrl),
             ],
           ),
         ],
@@ -42,20 +52,31 @@ class Footer extends StatelessWidget {
     );
   }
 
-  Widget _footerLink(String title) {
-    return Text(
-      title,
-      style: GoogleFonts.inter(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textSecondary,
+  Widget _footerLink(String title, String url) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () async {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+        child: Text(
+          title,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textSecondary,
+          ),
+        ),
       ),
     );
   }
 
   Widget _divider() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       width: 4,
       height: 4,
       decoration: const BoxDecoration(

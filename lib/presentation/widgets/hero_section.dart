@@ -58,7 +58,7 @@ class HeroSection extends StatelessWidget {
 
             // Role
             Text(
-              'Flutter Developer',
+              PersonalInfo.jobTitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
@@ -72,8 +72,7 @@ class HeroSection extends StatelessWidget {
 
             // Bio
             Text(
-              'I design, develop, and ship delightful digital experiences for web and mobile. '
-              'Specializing in architecting robust, high-performance applications with Flutter and modern web technologies.',
+              PersonalInfo.bio,
               style: GoogleFonts.inter(
                 fontSize: isMobile ? 14 : 16,
                 color: AppColors.textSecondary,
@@ -88,25 +87,40 @@ class HeroSection extends StatelessWidget {
               spacing: 16,
               runSpacing: 12,
               children: [
-                _ctaButton('Download CV', true, context: context),
-                _ctaButton('Contact Me', false, context: context),
+                _ctaButton(
+                  'Download CV/Resume',
+                  true,
+                  PersonalInfo.resumeDownloadUrl,
+                  context: context,
+                ),
+                _ctaButton(
+                  'View CV/Resume',
+                  false,
+                  PersonalInfo.resumeViewUrl,
+                  context: context,
+                ),
               ],
             ).animate().fadeIn(duration: 800.ms, delay: 600.ms),
 
             const SizedBox(height: 40),
 
             // Social icons
-            Row(
+            Wrap(
+              spacing: 24,
+              runSpacing: 16,
               children: [
-                _socialIcon(FontAwesomeIcons.github, PersonalInfo.githubUrl),
-                const SizedBox(width: 24),
-                _socialIcon(
-                  FontAwesomeIcons.linkedin,
-                  PersonalInfo.linkedinUrl,
-                ),
-                const SizedBox(width: 24),
-                _socialIcon(FontAwesomeIcons.xTwitter, PersonalInfo.twitterUrl),
-                const SizedBox(width: 24),
+                if (PersonalInfo.showGithub)
+                  _socialIcon(FontAwesomeIcons.github, PersonalInfo.githubUrl),
+                if (PersonalInfo.showLinkedIn)
+                  _socialIcon(
+                    FontAwesomeIcons.linkedin,
+                    PersonalInfo.linkedinUrl,
+                  ),
+                if (PersonalInfo.showTwitter)
+                  _socialIcon(
+                    FontAwesomeIcons.xTwitter,
+                    PersonalInfo.twitterUrl,
+                  ),
                 _socialIcon(
                   FontAwesomeIcons.envelope,
                   PersonalInfo.emailAddress,
@@ -121,43 +135,89 @@ class HeroSection extends StatelessWidget {
 
   Widget _ctaButton(
     String title,
-    bool isPrimary, {
+    bool isPrimary,
+    String url, {
     required BuildContext context,
   }) {
-    final bool isMobile = Responsive.isMobile(context);
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 24 : 32,
-        vertical: isMobile ? 12 : 14,
-      ),
-      decoration: BoxDecoration(
-        color: isPrimary ? AppColors.primary : AppColors.surface,
-        border: isPrimary ? null : Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(100),
-        boxShadow: isPrimary
-            ? [
-                BoxShadow(
-                  color: AppColors.shadowStrong,
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : null,
-      ),
-      child: Text(
-        title,
-        style: GoogleFonts.inter(
-          fontSize: isMobile ? 13 : 14,
-          fontWeight: FontWeight.w600,
-          color: isPrimary ? AppColors.surface : AppColors.textPrimary,
-        ),
-      ),
-    );
+    return _HoverCTAButton(title: title, isPrimary: isPrimary, url: url);
   }
 
   Widget _socialIcon(IconData icon, String url) {
     return _HoverSocialIcon(icon: icon, url: url);
+  }
+}
+
+class _HoverCTAButton extends StatefulWidget {
+  final String title;
+  final bool isPrimary;
+  final String url;
+
+  const _HoverCTAButton({
+    required this.title,
+    required this.isPrimary,
+    required this.url,
+  });
+
+  @override
+  State<_HoverCTAButton> createState() => _HoverCTAButtonState();
+}
+
+class _HoverCTAButtonState extends State<_HoverCTAButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: () async {
+          final uri = Uri.parse(widget.url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 24 : 32,
+            vertical: isMobile ? 12 : 14,
+          ),
+          decoration: BoxDecoration(
+            color: widget.isPrimary ? AppColors.primary : AppColors.surface,
+            border: widget.isPrimary
+                ? null
+                : Border.all(
+                    color: _isHovered ? AppColors.primary : AppColors.border,
+                    width: _isHovered ? 2 : 1,
+                  ),
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: widget.isPrimary
+                ? [
+                    BoxShadow(
+                      color: AppColors.shadowStrong,
+                      blurRadius: _isHovered ? 15 : 10,
+                      offset: Offset(0, _isHovered ? 6 : 4),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Text(
+            widget.title,
+            style: GoogleFonts.inter(
+              fontSize: isMobile ? 13 : 14,
+              fontWeight: FontWeight.w600,
+              color: widget.isPrimary
+                  ? AppColors.surface
+                  : AppColors.textPrimary,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
