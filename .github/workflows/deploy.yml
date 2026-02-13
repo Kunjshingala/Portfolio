@@ -22,14 +22,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup FVM
-        uses: flutter-actions/setup-fvm@v1
+      - name: Get Flutter version from FVM config
+        uses: kuhnroyal/flutter-fvm-config-action@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
+          channel: 'stable'
 
       - name: Install dependencies
-        run: fvm flutter pub get
+        run: flutter pub get
 
       - name: Build web
-        run: fvm flutter build web --release --base-href /Portfolio/
+        run: flutter build web --release --base-href /Portfolio/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
