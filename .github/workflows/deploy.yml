@@ -22,17 +22,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+      - name: Setup FVM
+        uses: yetit/fvm-action@v2
 
       - name: Install dependencies
-        run: flutter pub get
+        run: fvm flutter pub get
 
       - name: Build web
-        run: flutter build web --release --base-href /Portfolio/
+        run: fvm flutter build web --release --base-href /Portfolio/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
