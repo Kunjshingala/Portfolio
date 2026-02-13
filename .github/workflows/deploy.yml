@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup FVM
-        uses: yetit/fvm-action@v2
+        uses: flutter-actions/setup-fvm@v1
 
       - name: Install dependencies
         run: fvm flutter pub get
