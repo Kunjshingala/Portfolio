@@ -22,6 +22,9 @@ class AppColors {
   static Color shadow = primary.withValues(alpha: 0.05);
   static Color shadowStrong = primary.withValues(alpha: 0.1);
 
+  // Selection
+  static const Color selectionHighlight = Color(0xFFB4D7FF);
+
   // Navigation
   static Color navBackground = surface.withValues(alpha: 0.6);
 }
