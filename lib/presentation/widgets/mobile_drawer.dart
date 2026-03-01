@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/constants/personal_info.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class MobileDrawer extends StatelessWidget {
-  final Function(String) onNavTap;
   const MobileDrawer({super.key, required this.onNavTap});
+  final void Function(String) onNavTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MobileDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              '${PersonalInfo.firstName.toUpperCase()} ${PersonalInfo.lastName.toUpperCase()}',
+              '${AppInfo.firstName.toUpperCase()} ${AppInfo.lastName.toUpperCase()}',
               style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class MobileDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(24),
             child: Text(
-              '© ${PersonalInfo.copyrightYear} ${PersonalInfo.fullName}',
+              '© ${AppInfo.copyrightYear} ${AppInfo.fullName}',
               style: GoogleFonts.inter(
                 fontSize: 11,
                 color: AppColors.textTertiary,

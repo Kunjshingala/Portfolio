@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class TestimonialsSection extends StatelessWidget {
   const TestimonialsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,7 +40,6 @@ class TestimonialsSection extends StatelessWidget {
               style: TextStyle(color: AppColors.textSecondary, fontSize: isMobile ? 12 : 13),
             ),
             const SizedBox(height: 40),
-
             if (isMobile) ...[
               _testimonialCard(
                 'Working with Alex was a game-changer for our project. His Flutter expertise and attention to detail resulted in a beautiful, performant app.',
@@ -46,7 +47,7 @@ class TestimonialsSection extends StatelessWidget {
                 'Product Manager at TechCorp',
                 5,
                 context,
-              ),
+              ).animate().fadeIn(duration: 600.ms, delay: 100.ms).slideX(begin: 0.1),
               const SizedBox(height: 16),
               _testimonialCard(
                 'Alex delivered our MVP ahead of schedule with exceptional quality. His code is clean, well-documented, and maintainable.',
@@ -54,7 +55,7 @@ class TestimonialsSection extends StatelessWidget {
                 'CTO at StartupXYZ',
                 5,
                 context,
-              ),
+              ).animate().fadeIn(duration: 600.ms, delay: 200.ms).slideX(begin: 0.1),
             ] else
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +67,7 @@ class TestimonialsSection extends StatelessWidget {
                       'Product Manager at TechCorp',
                       5,
                       context,
-                    ),
+                    ).animate().fadeIn(duration: 600.ms, delay: 100.ms).slideX(begin: 0.1),
                   ),
                   const SizedBox(width: 24),
                   Expanded(
@@ -76,7 +77,7 @@ class TestimonialsSection extends StatelessWidget {
                       'CTO at StartupXYZ',
                       5,
                       context,
-                    ),
+                    ).animate().fadeIn(duration: 600.ms, delay: 200.ms).slideX(begin: 0.1),
                   ),
                 ],
               ),
@@ -87,7 +88,7 @@ class TestimonialsSection extends StatelessWidget {
   }
 
   Widget _testimonialCard(String quote, String name, String role, int rating, BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       padding: EdgeInsets.all(isMobile ? 24 : 32),

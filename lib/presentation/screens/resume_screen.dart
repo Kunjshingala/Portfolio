@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../widgets/glass_navbar.dart';
-import '../widgets/hero_section.dart';
-import '../widgets/stats_section.dart';
-import '../widgets/experience_section.dart';
-import '../widgets/skills_section.dart';
-import '../widgets/projects_section.dart';
-import '../widgets/testimonials_section.dart';
-import '../widgets/contact_section.dart';
-import '../widgets/footer.dart';
-import '../widgets/mobile_drawer.dart';
-import '../../core/constants/personal_info.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PortfolioScreen extends StatefulWidget {
-  const PortfolioScreen({super.key});
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
+import 'package:kunj_shingala/presentation/blocs/resume/resume_bloc.dart';
+import 'package:kunj_shingala/presentation/widgets/contact_section.dart';
+import 'package:kunj_shingala/presentation/widgets/experience_section.dart';
+import 'package:kunj_shingala/presentation/widgets/footer.dart';
+import 'package:kunj_shingala/presentation/widgets/glass_navbar.dart';
+import 'package:kunj_shingala/presentation/widgets/hero_section.dart';
+import 'package:kunj_shingala/presentation/widgets/mobile_drawer.dart';
+import 'package:kunj_shingala/presentation/widgets/projects_section.dart';
+import 'package:kunj_shingala/presentation/widgets/skills_section.dart';
+import 'package:kunj_shingala/presentation/widgets/stats_section.dart';
+import 'package:kunj_shingala/presentation/widgets/testimonials_section.dart';
+
+class ResumeScreen extends StatefulWidget {
+  const ResumeScreen({super.key});
 
   @override
-  State<PortfolioScreen> createState() => _PortfolioScreenState();
+  State<ResumeScreen> createState() => _ResumeScreenState();
 }
 
-class _PortfolioScreenState extends State<PortfolioScreen> {
+class _ResumeScreenState extends State<ResumeScreen> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _showLogo = true;
 
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _statsKey = GlobalKey();
@@ -36,11 +38,11 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      final RenderBox box = context.findRenderObject() as RenderBox;
-      final RenderAbstractViewport viewport = RenderAbstractViewport.of(box);
+      final box = context.findRenderObject()! as RenderBox;
+      final viewport = RenderAbstractViewport.of(box);
 
       // Calculate target: reveal offset - navbar height (approx 80px)
-      final double target = viewport.getOffsetToReveal(box, 0.0).offset - 80;
+      final target = viewport.getOffsetToReveal(box, 0.0).offset - 80;
 
       _scrollController.animateTo(
         target < 0 ? 0 : target,
@@ -88,15 +90,16 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
 
   void _onScroll() {
     final shouldShowLogo = _scrollController.offset <= 50;
-    if (shouldShowLogo != _showLogo) {
-      setState(() => _showLogo = shouldShowLogo);
+    if (shouldShowLogo != context.read<ResumeBloc>().state.showLogo) {
+      context.read<ResumeBloc>().add(LogoVisibilityChanged(showLogo: shouldShowLogo));
     }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
 
@@ -121,7 +124,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 SkillsSection(key: _skillsKey),
                 const SizedBox(height: 120),
                 ProjectsSection(key: _projectsKey),
-                if (PersonalInfo.showTestimonials) ...[
+                if (AppInfo.showTestimonials) ...[
                   const SizedBox(height: 120),
                   TestimonialsSection(key: _testimonialsKey),
                 ],
@@ -135,10 +138,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
             top: 0,
             left: 0,
             right: 0,
-            child: GlassNavbar(
-              showLogo: _showLogo,
-              onNavTap: _onNavTap,
-              onMenuTap: () => _scaffoldKey.currentState?.openEndDrawer(),
+            child: BlocBuilder<ResumeBloc, ResumeState>(
+              buildWhen: (previous, current) => previous.showLogo != current.showLogo,
+              builder: (context, state) {
+                return GlassNavbar(
+                  showLogo: state.showLogo,
+                  onNavTap: _onNavTap,
+                  onMenuTap: () => _scaffoldKey.currentState?.openEndDrawer(),
+                );
+              },
             ),
           ),
         ],

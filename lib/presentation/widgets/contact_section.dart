@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../core/constants/personal_info.dart';
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -36,12 +37,11 @@ class _ContactSectionState extends State<ContactSection> {
     }
 
     // Construct mailto URL
-    final subject = Uri.encodeComponent('Portfolio Contact: $name');
+    final subject = Uri.encodeComponent('Contact from Kunj Shingala: $name');
     final body = Uri.encodeComponent(
       'Name: $name\nEmail: $email\n\nMessage:\n$message',
     );
-    final mailtoUrl =
-        'mailto:${PersonalInfo.email}?subject=$subject&body=$body';
+    final mailtoUrl = 'mailto:${AppInfo.email}?subject=$subject&body=$body';
 
     final uri = Uri.parse(mailtoUrl);
     if (await canLaunchUrl(uri)) {
@@ -62,21 +62,21 @@ class _ContactSectionState extends State<ContactSection> {
         content: Text(message),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusS)),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -90,7 +90,7 @@ class _ContactSectionState extends State<ContactSection> {
                 color: AppColors.textPrimary,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Dimensions.spaceS),
             Text(
               'Have a project in mind?',
               maxLines: 2,
@@ -100,12 +100,12 @@ class _ContactSectionState extends State<ContactSection> {
                 fontSize: isMobile ? 12 : 13,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: Dimensions.spaceXXL),
             Container(
-              padding: EdgeInsets.all(isMobile ? 24 : 40),
+              padding: EdgeInsets.all(isMobile ? Dimensions.spaceL : Dimensions.spaceXXL),
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(Dimensions.radiusL),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.shadow,
@@ -125,10 +125,10 @@ class _ContactSectionState extends State<ContactSection> {
                       height: 1.6,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: Dimensions.spaceXXL),
                   if (isMobile) ...[
                     _field('Name', 'Jane Doe', _nameController, context),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: Dimensions.spaceL / 1.2), // approx 20
                     _field(
                       'Email',
                       'jane@example.com',
@@ -146,7 +146,7 @@ class _ContactSectionState extends State<ContactSection> {
                             context,
                           ),
                         ),
-                        const SizedBox(width: 20),
+                        const SizedBox(width: Dimensions.spaceL / 1.2), // approx 20
                         Expanded(
                           child: _field(
                             'Email',
@@ -157,7 +157,7 @@ class _ContactSectionState extends State<ContactSection> {
                         ),
                       ],
                     ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: Dimensions.spaceL / 1.2), // approx 20
                   _field(
                     'Message',
                     'Tell me about your project...',
@@ -168,14 +168,14 @@ class _ContactSectionState extends State<ContactSection> {
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
-                    height: 54,
+                    height: Dimensions.buttonHeight,
                     child: ElevatedButton(
                       onPressed: _sendEmail,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: AppColors.surface,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusFull),
                         ),
                         elevation: 0,
                       ),
@@ -205,12 +205,12 @@ class _ContactSectionState extends State<ContactSection> {
     BuildContext context, {
     int maxLines = 1,
   }) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
+        const SizedBox(height: Dimensions.spaceS),
         Text(
           label.toUpperCase(),
           style: TextStyle(
@@ -220,11 +220,11 @@ class _ContactSectionState extends State<ContactSection> {
             letterSpacing: 1.5,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: Dimensions.spaceS),
         TextField(
           controller: controller,
           maxLines: maxLines,
-          style: TextStyle(color: AppColors.textPrimary),
+          style: const TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(
@@ -234,7 +234,7 @@ class _ContactSectionState extends State<ContactSection> {
             filled: true,
             fillColor: AppColors.fieldBackground,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(Dimensions.radiusS),
               borderSide: BorderSide.none,
             ),
             contentPadding: const EdgeInsets.symmetric(

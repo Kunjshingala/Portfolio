@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,50 +44,83 @@ class SkillsSection extends StatelessWidget {
             const SizedBox(height: 40),
 
             // Language
-            _skillCategory('Language', ['Dart', 'Java'], context),
+            _skillCategory('Language', ['Dart', 'Java'], context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 100.ms)
+                .slideX(begin: -0.1),
             const SizedBox(height: 24),
 
             // Technologies
-            _skillCategory('Technologies', [
-              'Flutter',
-              'Firebase',
-              'REST API Integration',
-            ], context),
+            _skillCategory(
+                    'Technologies',
+                    [
+                      'Flutter',
+                      'Firebase',
+                      'REST API Integration',
+                    ],
+                    context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 200.ms)
+                .slideX(begin: -0.1),
             const SizedBox(height: 24),
 
             // State Management & Storage
-            _skillCategory('State Management & Storage', [
-              'Bloc',
-              'Redux',
-              'Hive',
-            ], context),
+            _skillCategory(
+                    'State Management & Storage',
+                    [
+                      'Bloc',
+                      'Redux',
+                      'Hive',
+                    ],
+                    context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 300.ms)
+                .slideX(begin: -0.1),
             const SizedBox(height: 24),
 
             // Database
-            _skillCategory('Database', [
-              'Firebase Firestore',
-              'MySQL',
-            ], context),
+            _skillCategory(
+                    'Database',
+                    [
+                      'Firebase Firestore',
+                      'MySQL',
+                    ],
+                    context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 400.ms)
+                .slideX(begin: -0.1),
             const SizedBox(height: 24),
 
             // Tools
-            _skillCategory('Tools', [
-              'Git',
-              'GitHub',
-              'Android Studio',
-              'VS Code',
-              'Postman',
-            ], context),
+            _skillCategory(
+                    'Tools',
+                    [
+                      'Git',
+                      'GitHub',
+                      'Android Studio',
+                      'VS Code',
+                      'Postman',
+                    ],
+                    context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 500.ms)
+                .slideX(begin: -0.1),
             const SizedBox(height: 24),
 
             // Other Skills
-            _skillCategory('Other Skills', [
-              'Deep Linking',
-              'Push Notifications',
-              'Google Maps',
-              'App Deployment',
-              'Third-Party SDK Integration',
-            ], context),
+            _skillCategory(
+                    'Other Skills',
+                    [
+                      'Deep Linking',
+                      'Push Notifications',
+                      'Google Maps',
+                      'App Deployment',
+                      'Third-Party SDK Integration',
+                    ],
+                    context)
+                .animate()
+                .fadeIn(duration: 600.ms, delay: 600.ms)
+                .slideX(begin: -0.1),
           ],
         ),
       ),
@@ -97,7 +132,7 @@ class SkillsSection extends StatelessWidget {
     List<String> skills,
     BuildContext context,
   ) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

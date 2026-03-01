@@ -1,11 +1,11 @@
 {
-    "name": "portfolio",
-    "short_name": "portfolio",
+    "name": "Kunj Shingala",
+    "short_name": "Kunj Shingala",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Professional resume web page for Kunj Shingala.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
