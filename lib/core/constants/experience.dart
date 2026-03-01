@@ -1,4 +1,4 @@
-import 'package:kunj_shingala/core/models/experience.dart';
+import 'package:about/core/models/experience.dart';
 
 class ExperienceInfo {
   ExperienceInfo._();

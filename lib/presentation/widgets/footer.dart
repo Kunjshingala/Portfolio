@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kunj_shingala/core/constants/assets.dart';
-import 'package:kunj_shingala/core/constants/info.dart';
-import 'package:kunj_shingala/core/theme/app_colors.dart';
+import 'package:about/core/constants/assets.dart';
+import 'package:about/core/constants/info.dart';
+import 'package:about/core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends StatelessWidget {

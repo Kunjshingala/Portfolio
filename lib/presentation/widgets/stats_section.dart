@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:kunj_shingala/core/constants/stats.dart';
-import 'package:kunj_shingala/core/dimensions.dart';
-import 'package:kunj_shingala/core/responsive.dart';
-import 'package:kunj_shingala/core/theme/app_colors.dart';
+import 'package:about/core/constants/stats.dart';
+import 'package:about/core/dimensions.dart';
+import 'package:about/core/responsive.dart';
+import 'package:about/core/theme/app_colors.dart';
 
 class StatsSection extends StatelessWidget {
   const StatsSection({super.key});

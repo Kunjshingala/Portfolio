@@ -36,7 +36,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web --release --base-href /Portfolio/
+        run: flutter build web --release --base-href /about/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

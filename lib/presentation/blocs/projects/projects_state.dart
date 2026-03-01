@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:kunj_shingala/core/models/project.dart';
+import 'package:about/core/models/project.dart';
 
 abstract class ProjectsState extends Equatable {
   const ProjectsState();

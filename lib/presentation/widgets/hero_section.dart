@@ -3,11 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kunj_shingala/core/constants/info.dart';
-import 'package:kunj_shingala/core/dimensions.dart';
-import 'package:kunj_shingala/core/responsive.dart';
-import 'package:kunj_shingala/core/theme/app_colors.dart';
-import 'package:kunj_shingala/presentation/blocs/hover/hover_cubit.dart';
+import 'package:about/core/constants/info.dart';
+import 'package:about/core/dimensions.dart';
+import 'package:about/core/responsive.dart';
+import 'package:about/core/theme/app_colors.dart';
+import 'package:about/presentation/blocs/hover/hover_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {

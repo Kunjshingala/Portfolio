@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kunj_shingala/core/models/project.dart';
+import 'package:about/core/models/project.dart';
 
 void main() {
   group('Project.fromJson', () {
