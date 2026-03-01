@@ -1,4 +1,4 @@
-import 'package:kunj_shingala/core/models/project.dart';
+import 'package:about/core/models/project.dart';
 
 class ProjectConstants {
   ProjectConstants._();
@@ -16,6 +16,8 @@ class ProjectConstants {
     'Flutter-Counter-Redux',
     'Flutter-Grocery-BloC',
     'Android-Task-1',
+    'about',
+    'Flutter-Counter-BloC',
     // Add more repository names here to hide them
   ];
 
