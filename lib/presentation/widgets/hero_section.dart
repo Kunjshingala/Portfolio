@@ -57,10 +57,8 @@ class HeroSection extends StatelessWidget {
                   TextSpan(
                     text: AppInfo.firstName,
                     style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                      decorationColor: AppColors.textPrimary,
-                      decorationThickness: 2,
+                      fontWeight: FontWeight.w800, // Extra bold to stand out
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ],
