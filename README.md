@@ -115,6 +115,22 @@ Deployment is automated via **GitHub Actions** on every push to `main`. See [`.g
 
 ---
 
+## 🌿 Branching Strategy
+
+This repository uses a **two-branch workflow**:
+
+| Branch | Purpose |
+|---|---|
+| `dev` | Active development — all changes are made here |
+| `main` | Production — auto-deploys to GitHub Pages on merge |
+
+**Workflow:**
+1. Develop and test on `dev`
+2. Create a Pull Request from `dev` → `main`
+3. Merge to trigger automatic deployment via GitHub Actions
+
+---
+
 ## 🧪 Testing
 
 The project has **25 tests** across unit, bloc, and widget test categories.
