@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:kunj_shingala/core/constants/projects.dart';
-import 'package:kunj_shingala/core/models/project.dart';
+import 'package:about/core/constants/projects.dart';
+import 'package:about/core/models/project.dart';
 
 /// Service to fetch project data from GitHub via a proxy API.
 class GitHubService {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kunj_shingala/core/constants/info.dart';
-import 'package:kunj_shingala/presentation/widgets/mobile_drawer.dart';
+import 'package:about/core/constants/info.dart';
+import 'package:about/presentation/widgets/mobile_drawer.dart';
 
 void main() {
   group('MobileDrawer', () {

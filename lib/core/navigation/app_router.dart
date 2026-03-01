@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kunj_shingala/presentation/screens/all_projects_screen.dart';
-import 'package:kunj_shingala/presentation/screens/resume_screen.dart';
+import 'package:about/presentation/screens/all_projects_screen.dart';
+import 'package:about/presentation/screens/resume_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(

@@ -1,4 +1,4 @@
-import 'package:kunj_shingala/core/models/stat.dart';
+import 'package:about/core/models/stat.dart';
 
 class Stats {
   Stats._();

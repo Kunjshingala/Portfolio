@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:kunj_shingala/core/constants/info.dart';
-import 'package:kunj_shingala/core/constants/projects.dart';
-import 'package:kunj_shingala/core/navigation/app_router.dart';
-import 'package:kunj_shingala/core/services/github_service.dart';
-import 'package:kunj_shingala/core/theme/app_colors.dart';
-import 'package:kunj_shingala/presentation/blocs/projects/projects_bloc.dart';
-import 'package:kunj_shingala/presentation/blocs/projects/projects_event.dart';
-import 'package:kunj_shingala/presentation/blocs/resume/resume_bloc.dart';
+import 'package:about/core/constants/info.dart';
+import 'package:about/core/constants/projects.dart';
+import 'package:about/core/navigation/app_router.dart';
+import 'package:about/core/services/github_service.dart';
+import 'package:about/core/theme/app_colors.dart';
+import 'package:about/presentation/blocs/projects/projects_bloc.dart';
+import 'package:about/presentation/blocs/projects/projects_event.dart';
+import 'package:about/presentation/blocs/resume/resume_bloc.dart';
 
 void main() {
   runApp(const MyApp());

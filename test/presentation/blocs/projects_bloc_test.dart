@@ -2,11 +2,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kunj_shingala/core/models/project.dart';
-import 'package:kunj_shingala/core/services/github_service.dart';
-import 'package:kunj_shingala/presentation/blocs/projects/projects_bloc.dart';
-import 'package:kunj_shingala/presentation/blocs/projects/projects_event.dart';
-import 'package:kunj_shingala/presentation/blocs/projects/projects_state.dart';
+import 'package:about/core/models/project.dart';
+import 'package:about/core/services/github_service.dart';
+import 'package:about/presentation/blocs/projects/projects_bloc.dart';
+import 'package:about/presentation/blocs/projects/projects_event.dart';
+import 'package:about/presentation/blocs/projects/projects_state.dart';
 
 class MockGitHubService extends Mock implements GitHubService {}
 

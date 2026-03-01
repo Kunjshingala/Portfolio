@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kunj_shingala/core/responsive.dart';
+import 'package:about/core/responsive.dart';
 
 void main() {
   group('Responsive', () {

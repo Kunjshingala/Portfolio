@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:kunj_shingala/core/constants/info.dart';
-import 'package:kunj_shingala/core/theme/app_colors.dart';
-import 'package:kunj_shingala/presentation/blocs/resume/resume_bloc.dart';
-import 'package:kunj_shingala/presentation/widgets/contact_section.dart';
-import 'package:kunj_shingala/presentation/widgets/experience_section.dart';
-import 'package:kunj_shingala/presentation/widgets/footer.dart';
-import 'package:kunj_shingala/presentation/widgets/glass_navbar.dart';
-import 'package:kunj_shingala/presentation/widgets/hero_section.dart';
-import 'package:kunj_shingala/presentation/widgets/mobile_drawer.dart';
-import 'package:kunj_shingala/presentation/widgets/projects_section.dart';
-import 'package:kunj_shingala/presentation/widgets/skills_section.dart';
-import 'package:kunj_shingala/presentation/widgets/stats_section.dart';
-import 'package:kunj_shingala/presentation/widgets/testimonials_section.dart';
+import 'package:about/core/constants/info.dart';
+import 'package:about/core/theme/app_colors.dart';
+import 'package:about/presentation/blocs/resume/resume_bloc.dart';
+import 'package:about/presentation/widgets/contact_section.dart';
+import 'package:about/presentation/widgets/experience_section.dart';
+import 'package:about/presentation/widgets/footer.dart';
+import 'package:about/presentation/widgets/glass_navbar.dart';
+import 'package:about/presentation/widgets/hero_section.dart';
+import 'package:about/presentation/widgets/mobile_drawer.dart';
+import 'package:about/presentation/widgets/projects_section.dart';
+import 'package:about/presentation/widgets/skills_section.dart';
+import 'package:about/presentation/widgets/stats_section.dart';
+import 'package:about/presentation/widgets/testimonials_section.dart';
 
 class ResumeScreen extends StatefulWidget {
   const ResumeScreen({super.key});

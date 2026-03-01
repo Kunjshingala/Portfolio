@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kunj_shingala/presentation/blocs/hover/hover_cubit.dart';
+import 'package:about/presentation/blocs/hover/hover_cubit.dart';
 
 void main() {
   group('HoverCubit', () {
