@@ -49,6 +49,9 @@ class MyApp extends StatelessWidget {
             surface: AppColors.surface,
           ),
           textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
+          textSelectionTheme: TextSelectionThemeData(
+            selectionColor: AppColors.selectionHighlight,
+          ),
           useMaterial3: true,
         ),
         routerConfig: AppRouter.router,
