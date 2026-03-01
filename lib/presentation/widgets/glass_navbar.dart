@@ -1,54 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/constants/assets.dart';
-import '../../core/constants/personal_info.dart';
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class GlassNavbar extends StatelessWidget {
-  final Function(String) onNavTap;
-  final VoidCallback onMenuTap;
-  final bool showLogo;
-
   const GlassNavbar({
     super.key,
-    required this.onNavTap,
-    required this.onMenuTap,
+    this.onNavTap,
+    this.onMenuTap,
     this.showLogo = true,
+    this.showBackButton = false,
+    this.onBackTap,
+    this.showNavItems = true,
   });
+  final void Function(String)? onNavTap;
+  final VoidCallback? onMenuTap;
+  final bool showLogo;
+  final bool showBackButton;
+  final VoidCallback? onBackTap;
+  final bool showNavItems;
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       decoration: BoxDecoration(color: AppColors.navBackground),
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 16 : 24,
+            horizontal: isMobile ? 12 : 24,
             vertical: isMobile ? 12 : 20,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () => onNavTap('About'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (showLogo) ...[
-                      Image.asset(
-                        Assets.logoFavicon,
-                        height: isMobile ? 24 : 28,
-                        fit: BoxFit.contain,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (showBackButton)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, size: 20),
+                        color: AppColors.textPrimary,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: onBackTap,
                       ),
-                      SizedBox(width: isMobile ? 6 : 8),
-                    ],
-                    Text(
-                      PersonalInfo.fullName,
+                    ),
+                  GestureDetector(
+                    onTap: () => onNavTap?.call('About'),
+                    child: Text(
+                      AppInfo.fullName,
                       style: GoogleFonts.inter(
                         fontSize: isMobile ? 12 : 14,
                         fontWeight: FontWeight.bold,
@@ -56,10 +64,10 @@ class GlassNavbar extends StatelessWidget {
                         color: AppColors.textPrimary,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              if (!isMobile)
+              if (!isMobile && showNavItems)
                 Row(
                   children: [
                     _navItem('About'),
@@ -73,7 +81,7 @@ class GlassNavbar extends StatelessWidget {
                     _navItem('Contact'),
                   ],
                 )
-              else
+              else if (isMobile && onMenuTap != null)
                 IconButton(
                   icon: const Icon(Icons.menu),
                   color: AppColors.primary,
@@ -91,7 +99,7 @@ class GlassNavbar extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () => onNavTap(title),
+        onTap: () => onNavTap?.call(title),
         child: Text(
           title,
           style: GoogleFonts.inter(

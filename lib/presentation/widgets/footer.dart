@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kunj_shingala/core/constants/assets.dart';
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/constants/assets.dart';
-import '../../core/constants/personal_info.dart';
-import '../../core/theme/app_colors.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -17,10 +16,10 @@ class Footer extends StatelessWidget {
         children: [
           const Divider(color: AppColors.borderLight),
           const SizedBox(height: 60),
-          Image.asset(Assets.logoFavicon, height: 48, fit: BoxFit.contain),
+          Image.asset(Assets.logo192, height: 32, fit: BoxFit.contain),
           const SizedBox(height: 16),
           Text(
-            '© ${PersonalInfo.copyrightYear} ${PersonalInfo.fullName}. Built with Flutter.',
+            '© ${AppInfo.copyrightYear} ${AppInfo.fullName}. Built with Flutter.',
             style: GoogleFonts.inter(
               fontSize: 13,
               color: AppColors.textTertiary,
@@ -34,17 +33,15 @@ class Footer extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              if (PersonalInfo.showGithub) ...[
-                _footerLink('GitHub', PersonalInfo.githubUrl),
-                if (PersonalInfo.showLinkedIn || PersonalInfo.showTwitter)
-                  _divider(),
+              if (AppInfo.showGithub) ...[
+                _footerLink('GitHub', AppInfo.githubUrl),
+                if (AppInfo.showLinkedIn || AppInfo.showTwitter) _divider(),
               ],
-              if (PersonalInfo.showLinkedIn) ...[
-                _footerLink('LinkedIn', PersonalInfo.linkedinUrl),
-                if (PersonalInfo.showTwitter) _divider(),
+              if (AppInfo.showLinkedIn) ...[
+                _footerLink('LinkedIn', AppInfo.linkedinUrl),
+                if (AppInfo.showTwitter) _divider(),
               ],
-              if (PersonalInfo.showTwitter)
-                _footerLink('Twitter', PersonalInfo.twitterUrl),
+              if (AppInfo.showTwitter) _footerLink('Twitter', AppInfo.twitterUrl),
             ],
           ),
         ],

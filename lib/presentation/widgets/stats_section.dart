@@ -1,48 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/constants/stats.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class StatsSection extends StatelessWidget {
   const StatsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
+    const stats = Stats.stats;
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: isMobile
             ? Column(
-                children: [
-                  _statCard('15+', 'Projects Built', context),
-                  const SizedBox(height: 16),
-                  _statCard('2+', 'Years Experience', context),
-                  const SizedBox(height: 16),
-                  _statCard('12+', 'Apps Deployed', context),
-                ],
+                children: stats.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final stat = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _statCard(stat.value, stat.label, context),
+                  )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: (index * 100).ms)
+                      .slideY(begin: 0.2, curve: Curves.easeOutQuad);
+                }).toList(),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(child: _statCard('15+', 'Projects Built', context)),
-                  const SizedBox(width: 24),
-                  Expanded(child: _statCard('2+', 'Years Experience', context)),
-                  const SizedBox(width: 24),
-                  Expanded(child: _statCard('12+', 'Apps Deployed', context)),
-                ],
+                children: stats.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final stat = entry.value;
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: stat == stats.last ? 0 : 24,
+                      ),
+                      child: _statCard(stat.value, stat.label, context),
+                    )
+                        .animate()
+                        .fadeIn(duration: 600.ms, delay: (index * 100).ms)
+                        .slideY(begin: 0.2, curve: Curves.easeOutQuad),
+                  );
+                }).toList(),
               ),
       ),
     );
   }
 
   Widget _statCard(String value, String label, BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       padding: EdgeInsets.all(isMobile ? 24 : 32),

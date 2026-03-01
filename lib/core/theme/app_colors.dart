@@ -19,9 +19,9 @@ class AppColors {
   static const Color tagBackground = Color(0xFFFAFAFA);
 
   // Shadows
-  static Color shadow = Colors.black.withValues(alpha: 0.05);
-  static Color shadowStrong = Colors.black.withValues(alpha: 0.1);
+  static Color shadow = primary.withValues(alpha: 0.05);
+  static Color shadowStrong = primary.withValues(alpha: 0.1);
 
   // Navigation
-  static Color navBackground = Color(0xFFFFFFFF).withValues(alpha: 0.6);
+  static Color navBackground = surface.withValues(alpha: 0.6);
 }

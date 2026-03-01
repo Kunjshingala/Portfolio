@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kunj_shingala/core/constants/experience.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
+    const experiences = ExperienceInfo.experiences;
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,44 +44,24 @@ class ExperienceSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40),
-            _expCard(
-              'Jr. Mobile App Developer',
-              'White Label Fox',
-              'Jul 2024 — Present',
-              [
-                'Contributed to the development and customization of 15+ white-label mobile product bundles across delivery, booking, and home services domains.',
-                'Built and maintained 12+ projects, participating in the full development lifecycle including UI design, feature development, deployment, and post-launch support.',
-                'Developed real-time location tracking, online payments, push notifications, and deep linking features (first-time implementation for select product lines).',
-                'Utilized Bloc and Redux for state management, Hive for local storage, building clean and scalable app architectures.',
-                'Integrated third-party APIs and SDKs (Google Maps, Firebase, social login) to meet diverse client requirements across multiple regions.',
-                'Deployed apps to Play Store and App Store, managing releases, resolving compliance issues, and addressing rejection cases for successful approval.',
-                'Collaborated with designers, QA testers, and backend teams to deliver high-quality features and handled legacy app improvements.',
-              ],
-              [
-                'Flutter',
-                'Dart',
-                'Bloc',
-                'Redux',
-                'Hive',
-                'Firebase',
-                'Google Maps',
-              ],
-              context,
-            ),
-            const SizedBox(height: 24),
-            _expCard(
-              'Mobile App Developer Intern',
-              'White Label Fox',
-              'Nov 2023 — Jun 2024',
-              [
-                'Assisted in developing white-label mobile applications for various business domains.',
-                'Learned and implemented Flutter development best practices under senior developer guidance.',
-                'Contributed to feature development, bug fixes, and UI improvements.',
-                'Gained hands-on experience with state management, API integration, and app deployment processes.',
-              ],
-              ['Flutter', 'Dart', 'Firebase'],
-              context,
-            ),
+            ...experiences.asMap().entries.map((entry) {
+              final index = entry.key;
+              final exp = entry.value;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: _expCard(
+                  exp.title,
+                  exp.company,
+                  exp.date,
+                  exp.bulletPoints,
+                  exp.tags,
+                  context,
+                ),
+              )
+                  .animate()
+                  .fadeIn(duration: 700.ms, delay: (index * 150).ms)
+                  .slideY(begin: 0.1, curve: Curves.easeOutQuad);
+            }),
           ],
         ),
       ),
@@ -92,7 +76,7 @@ class ExperienceSection extends StatelessWidget {
     List<String> tags,
     BuildContext context,
   ) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       padding: EdgeInsets.all(isMobile ? 24 : 32),
@@ -121,9 +105,7 @@ class ExperienceSection extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: date.contains('Present')
-                        ? AppColors.primary
-                        : AppColors.borderLight,
+                    color: date.contains('Present') ? AppColors.primary : AppColors.borderLight,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Text(
@@ -133,9 +115,7 @@ class ExperienceSection extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      color: date.contains('Present')
-                          ? AppColors.surface
-                          : AppColors.textSecondary,
+                      color: date.contains('Present') ? AppColors.surface : AppColors.textSecondary,
                     ),
                   ),
                 ),
@@ -201,9 +181,7 @@ class ExperienceSection extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: date.contains('Present')
-                        ? AppColors.primary
-                        : AppColors.borderLight,
+                    color: date.contains('Present') ? AppColors.primary : AppColors.borderLight,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Text(
@@ -213,9 +191,7 @@ class ExperienceSection extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
-                      color: date.contains('Present')
-                          ? AppColors.surface
-                          : AppColors.textSecondary,
+                      color: date.contains('Present') ? AppColors.surface : AppColors.textSecondary,
                     ),
                   ),
                 ),

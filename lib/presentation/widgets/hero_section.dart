@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kunj_shingala/core/constants/info.dart';
+import 'package:kunj_shingala/core/dimensions.dart';
+import 'package:kunj_shingala/core/responsive.dart';
+import 'package:kunj_shingala/core/theme/app_colors.dart';
+import 'package:kunj_shingala/presentation/blocs/hover/hover_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/constants/personal_info.dart';
-import '../../core/responsive.dart';
-import '../../core/theme/app_colors.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double width = Responsive.screenWidth(context);
-    final bool isMobile = Responsive.isMobile(context);
+    final width = Responsive.screenWidth(context);
+    final isMobile = Responsive.isMobile(context);
 
-    double headerSize = width * 0.08;
-    if (headerSize > 48) headerSize = 48;
-    if (headerSize < 28) headerSize = 28;
+    final headerSize = Dimensions.getResponsiveSize(
+      width,
+      factor: 0.08,
+      min: 28,
+      max: 48,
+    );
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : 40),
+        constraints: const BoxConstraints(maxWidth: Dimensions.maxWidth),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? width * 0.05 : Dimensions.spaceXXL),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: (width * 0.1 > 100 ? 100 : width * 0.1) + 80),
+            SizedBox(
+              height: Dimensions.getResponsiveSize(
+                    width,
+                    factor: 0.1,
+                    min: 0,
+                    max: 100,
+                  ) +
+                  80,
+            ),
 
             // "Hi, I'm" text
             RichText(
@@ -40,9 +53,9 @@ class HeroSection extends StatelessWidget {
                   height: 1.3,
                 ),
                 children: [
-                  const TextSpan(text: 'Hi, I\'m '),
+                  const TextSpan(text: "Hi, I'm "),
                   TextSpan(
-                    text: PersonalInfo.firstName,
+                    text: AppInfo.firstName,
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
@@ -54,11 +67,11 @@ class HeroSection extends StatelessWidget {
               ),
             ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: Dimensions.spaceM),
 
             // Role
             Text(
-              PersonalInfo.jobTitle,
+              AppInfo.jobTitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
@@ -68,11 +81,11 @@ class HeroSection extends StatelessWidget {
               ),
             ).animate().fadeIn(duration: 800.ms, delay: 200.ms),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: Dimensions.spaceL),
 
             // Bio
             Text(
-              PersonalInfo.bio,
+              AppInfo.bio,
               style: GoogleFonts.inter(
                 fontSize: isMobile ? 14 : 16,
                 color: AppColors.textSecondary,
@@ -80,50 +93,49 @@ class HeroSection extends StatelessWidget {
               ),
             ).animate().fadeIn(duration: 800.ms, delay: 400.ms),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: Dimensions.spaceXXL),
 
             // Action buttons
             Wrap(
-              spacing: 16,
-              runSpacing: 12,
+              spacing: Dimensions.spaceM,
+              runSpacing: Dimensions.spaceM / 1.33, // approx 12
               children: [
                 _ctaButton(
                   'Download CV/Resume',
                   true,
-                  PersonalInfo.resumeDownloadUrl,
+                  AppInfo.resumeDownloadUrl,
                   context: context,
                 ),
                 _ctaButton(
                   'View CV/Resume',
                   false,
-                  PersonalInfo.resumeViewUrl,
+                  AppInfo.resumeViewUrl,
                   context: context,
                 ),
               ],
             ).animate().fadeIn(duration: 800.ms, delay: 600.ms),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: Dimensions.spaceXXL),
 
             // Social icons
             Wrap(
-              spacing: 24,
-              runSpacing: 16,
+              spacing: Dimensions.spaceL,
+              runSpacing: Dimensions.spaceM,
               children: [
-                if (PersonalInfo.showGithub)
-                  _socialIcon(FontAwesomeIcons.github, PersonalInfo.githubUrl),
-                if (PersonalInfo.showLinkedIn)
+                if (AppInfo.showGithub) _socialIcon(FontAwesomeIcons.github, AppInfo.githubUrl),
+                if (AppInfo.showLinkedIn)
                   _socialIcon(
                     FontAwesomeIcons.linkedin,
-                    PersonalInfo.linkedinUrl,
+                    AppInfo.linkedinUrl,
                   ),
-                if (PersonalInfo.showTwitter)
+                if (AppInfo.showTwitter)
                   _socialIcon(
                     FontAwesomeIcons.xTwitter,
-                    PersonalInfo.twitterUrl,
+                    AppInfo.twitterUrl,
                   ),
                 _socialIcon(
                   FontAwesomeIcons.envelope,
-                  PersonalInfo.emailAddress,
+                  AppInfo.emailAddress,
                 ),
               ],
             ).animate().fadeIn(duration: 800.ms, delay: 800.ms),
@@ -139,122 +151,122 @@ class HeroSection extends StatelessWidget {
     String url, {
     required BuildContext context,
   }) {
-    return _HoverCTAButton(title: title, isPrimary: isPrimary, url: url);
+    return BlocProvider(
+      create: (context) => HoverCubit(),
+      child: _HoverCTAButton(title: title, isPrimary: isPrimary, url: url),
+    );
   }
 
   Widget _socialIcon(IconData icon, String url) {
-    return _HoverSocialIcon(icon: icon, url: url);
+    return BlocProvider(
+      create: (context) => HoverCubit(),
+      child: _HoverSocialIcon(icon: icon, url: url),
+    );
   }
 }
 
-class _HoverCTAButton extends StatefulWidget {
-  final String title;
-  final bool isPrimary;
-  final String url;
-
+class _HoverCTAButton extends StatelessWidget {
   const _HoverCTAButton({
     required this.title,
     required this.isPrimary,
     required this.url,
   });
-
-  @override
-  State<_HoverCTAButton> createState() => _HoverCTAButtonState();
-}
-
-class _HoverCTAButtonState extends State<_HoverCTAButton> {
-  bool _isHovered = false;
+  final String title;
+  final bool isPrimary;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final isMobile = Responsive.isMobile(context);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => context.read<HoverCubit>().setHovered(true),
+      onExit: (_) => context.read<HoverCubit>().setHovered(false),
       child: GestureDetector(
         onTap: () async {
-          final uri = Uri.parse(widget.url);
+          final uri = Uri.parse(url);
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri, mode: LaunchMode.externalApplication);
           }
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 24 : 32,
-            vertical: isMobile ? 12 : 14,
-          ),
-          decoration: BoxDecoration(
-            color: widget.isPrimary ? AppColors.primary : AppColors.surface,
-            border: widget.isPrimary
-                ? null
-                : Border.all(
-                    color: _isHovered ? AppColors.primary : AppColors.border,
-                    width: _isHovered ? 2 : 1,
-                  ),
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: widget.isPrimary
-                ? [
-                    BoxShadow(
-                      color: AppColors.shadowStrong,
-                      blurRadius: _isHovered ? 15 : 10,
-                      offset: Offset(0, _isHovered ? 6 : 4),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Text(
-            widget.title,
-            style: GoogleFonts.inter(
-              fontSize: isMobile ? 13 : 14,
-              fontWeight: FontWeight.w600,
-              color: widget.isPrimary
-                  ? AppColors.surface
-                  : AppColors.textPrimary,
-            ),
-          ),
+        child: BlocBuilder<HoverCubit, bool>(
+          builder: (context, isHovered) {
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? Dimensions.spaceL : Dimensions.spaceXL,
+                vertical: isMobile ? Dimensions.spaceM / 1.33 : Dimensions.spaceM / 1.14, // approx 12, 14
+              ),
+              decoration: BoxDecoration(
+                color: isPrimary ? AppColors.primary : AppColors.surface,
+                border: isPrimary
+                    ? null
+                    : Border.all(
+                        color: isHovered ? AppColors.primary : AppColors.border,
+                        width: isHovered ? 2 : 1,
+                      ),
+                borderRadius: BorderRadius.circular(Dimensions.radiusFull),
+                boxShadow: isPrimary
+                    ? [
+                        BoxShadow(
+                          color: AppColors.shadowStrong,
+                          blurRadius: isHovered ? 15 : 10,
+                          offset: Offset(0, isHovered ? 6 : 4),
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Text(
+                title,
+                style: GoogleFonts.inter(
+                  fontSize: isMobile ? 13 : 14,
+                  fontWeight: FontWeight.w600,
+                  color: isPrimary ? AppColors.surface : AppColors.textPrimary,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 }
 
-class _HoverSocialIcon extends StatefulWidget {
+class _HoverSocialIcon extends StatelessWidget {
+  const _HoverSocialIcon({required this.icon, required this.url});
   final IconData icon;
   final String url;
-
-  const _HoverSocialIcon({required this.icon, required this.url});
-
-  @override
-  State<_HoverSocialIcon> createState() => _HoverSocialIconState();
-}
-
-class _HoverSocialIconState extends State<_HoverSocialIcon> {
-  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => context.read<HoverCubit>().setHovered(true),
+      onExit: (_) => context.read<HoverCubit>().setHovered(false),
       child: GestureDetector(
         onTap: () async {
-          final uri = Uri.parse(widget.url);
+          final uri = Uri.parse(url);
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri, mode: LaunchMode.externalApplication);
           }
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()..scale(_isHovered ? 1.2 : 1.0),
-          child: Icon(
-            widget.icon,
-            color: _isHovered ? AppColors.primary : AppColors.textTertiary,
-            size: 24,
-          ),
+        child: BlocBuilder<HoverCubit, bool>(
+          builder: (context, isHovered) {
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              transform: Matrix4.diagonal3Values(
+                isHovered ? 1.2 : 1.0,
+                isHovered ? 1.2 : 1.0,
+                1.0,
+              ),
+              child: Icon(
+                icon,
+                color: isHovered ? AppColors.primary : AppColors.textTertiary,
+                size: Dimensions.iconM,
+              ),
+            );
+          },
         ),
       ),
     );

@@ -1,12 +1,12 @@
-name: portfolio
-description: "A modern Flutter portfolio website showcasing professional work and projects."
+name: kunj_shingala
+description: "Professional resume web page for Kunj Shingala - showcasing projects, skills, and achievements."
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=3.10.0"
+  flutter: 3.38.9
 
 dependencies:
   flutter:
@@ -19,11 +19,14 @@ dependencies:
   go_router: ^14.6.3
   equatable: ^2.0.5
   font_awesome_flutter: ^10.12.0
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  bloc_test: ^9.1.7
+  mocktail: ^0.3.0
 
 flutter:
   uses-material-design: true
